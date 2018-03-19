@@ -12,6 +12,8 @@ class Model:
         self.input_neuron_values = random.rand(neurons + 1, 1)
         self.prediction_label = prediction_label
         self.threshold = threshold
+        self.training_error_mean = []
+        self.training_error_stdev = []
 
     def train(self, training_dataset, epoch):
         for i in range(0, epoch):
@@ -24,18 +26,17 @@ class Model:
                 error_dataset.append(error)
                 self.update_model(prediction, fact, data)
 
-            print('mean:', mean(error_dataset), 'stdev:', stdev(error_dataset))
+            self.training_error_mean.append(mean(error_dataset))
+            self.training_error_stdev.append(stdev(error_dataset))
 
     def update_model(self, prediction, fact, data):
-        self.input_neuron_values[-1] -= self.alpha * 2 * (prediction - fact) * (
-                    1 - prediction) * prediction * 1  # update bias
+        self.input_neuron_values[-1] -= self.alpha * self.delta_(prediction, fact, 1)  # update bias
         for x in range(0, self.input_neurons):  # update theta
-            self.input_neuron_values[x] -= self.alpha * 2 * (prediction - fact) * (1 - prediction) * prediction * data[
-                x]
+            self.input_neuron_values[x] -= self.delta_(prediction, fact, data[x])
 
     def predict(self, data):
         ev = 0
-        ev += self.input_neuron_values[-1] #add bias
+        ev += self.input_neuron_values[-1]  # add bias
         for x in range(0, self.input_neurons):  # theta*input
             ev += self.input_neuron_values[x] * data[x]
         prediction = self.sigmoid_activation(ev)
@@ -63,3 +64,7 @@ class Model:
     @staticmethod
     def sigmoid_activation(x):
         return 1 / (1 + exp(-x))
+
+    @staticmethod
+    def delta_(prediction, fact, x):
+        return 2 * (prediction - fact) * (1 - prediction) * prediction * x
