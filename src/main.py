@@ -27,7 +27,7 @@ def main():
     plt.plot(model.training_error_stdev)
     plt.xlabel('epoch')
     plt.yscale('log')
-    plt.legend(['error mean per epoch', 'standard deviation'], loc='upper right')
+    plt.legend(['MSE per epoch', 'standard deviation'], loc='upper right')
     plt.show()
 
 

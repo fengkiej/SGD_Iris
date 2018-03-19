@@ -44,12 +44,6 @@ class Model:
 
         return prediction
 
-    def show_label(self, prediction):
-        if prediction < self.threshold:
-            return self.prediction_label[0]
-        else:
-            return self.prediction_label[1]
-
     def validate(self, validation_dataset):
         random.shuffle(validation_dataset)
         right_guess = 0
@@ -70,3 +64,10 @@ class Model:
     @staticmethod
     def delta_(prediction, fact, x):
         return 2 * (prediction - fact) * (1 - prediction) * prediction * x
+
+    @staticmethod
+    def show_label(self, prediction):
+        if prediction < self.threshold:
+            return self.prediction_label[0]
+        else:
+            return self.prediction_label[1]
