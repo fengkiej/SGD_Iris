@@ -32,7 +32,7 @@ class Model:
     def update_model(self, prediction, fact, data):
         self.input_neuron_values[-1] -= self.alpha * self.delta_(prediction, fact, 1)  # update bias
         for x in range(0, self.input_neurons):  # update theta
-            self.input_neuron_values[x] -= self.delta_(prediction, fact, data[x])
+            self.input_neuron_values[x] -= self.alpha * self.delta_(prediction, fact, data[x])
 
     def predict(self, data):
         ev = 0
