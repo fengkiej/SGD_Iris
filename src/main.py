@@ -1,5 +1,4 @@
 from src.model import Model
-from numpy import random
 import matplotlib.pyplot as plt
 
 
@@ -12,9 +11,7 @@ def main():
     validation_data = [[float(x) for x in line.split(" ")] for line in f]
     f.close()
 
-    random.shuffle(training_data)
-
-    model = Model(4, 0.1, prediction_label=['iris-setosa', 'iris-versicolor'])
+    model = Model(4, 0.8, prediction_label=['iris-setosa', 'iris-versicolor'])
 
     print("training...")
     print("inital values:\n", model.input_neuron_values)
@@ -30,7 +27,7 @@ def main():
     plt.plot(model.training_error_stdev)
     plt.xlabel('epoch')
     plt.yscale('log')
-    plt.legend(['mean error', 'stdev'], loc='upper right')
+    plt.legend(['error mean per epoch', 'standard deviation'], loc='upper right')
     plt.show()
 
 

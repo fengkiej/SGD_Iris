@@ -17,6 +17,7 @@ class Model:
 
     def train(self, training_dataset, epoch):
         for i in range(0, epoch):
+            random.shuffle(training_dataset)
             error_dataset = []
             for data in training_dataset:
                 prediction = self.predict(data)
@@ -50,6 +51,7 @@ class Model:
             return self.prediction_label[1]
 
     def validate(self, validation_dataset):
+        random.shuffle(validation_dataset)
         right_guess = 0
         for data in validation_dataset:
             ans = 0
