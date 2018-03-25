@@ -14,8 +14,9 @@ class Model:
         self.threshold = threshold
         self.training_error_mean = []
         self.training_error_stdev = []
+        self.validation_result_per_epoch = []
 
-    def train(self, training_dataset, epoch):
+    def train(self, training_dataset, validation_dataset, epoch):
         for i in range(0, epoch):
             random.shuffle(training_dataset)
             error_dataset = []
@@ -29,6 +30,7 @@ class Model:
 
             self.training_error_mean.append(mean(error_dataset))
             self.training_error_stdev.append(stdev(error_dataset))
+            self.validation_result_per_epoch.append(self.validate(validation_dataset))
 
     def update_model(self, prediction, fact, data):
         self.input_neuron_values[-1] -= self.alpha * self.delta_(prediction, fact, 1)  # update bias
@@ -56,6 +58,12 @@ class Model:
             if ans == data[-1]:
                 right_guess += 1
         print("accuracy:", right_guess / len(validation_dataset) * 100, '%')
+        return right_guess / len(validation_dataset)
+
+    def reset_stat(self):
+        self.training_error_mean = []
+        self.training_error_stdev = []
+        self.validation_result_per_epoch = []
 
     @staticmethod
     def sigmoid_activation(x):
